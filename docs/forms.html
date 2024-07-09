@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freedive Mallorca Forms</title>
+    <style>
+        body, html { 
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('https://freedive-mallorca.com/wp-content/uploads/2019/04/IMG_2458.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .page-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .logo {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background-color: #f0f0f0;
+            border: 3px solid #c0c0c0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        .logo img {
+            width: 120px;
+            height: auto;
+        }
+        .open-form-btn, .finish-btn {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .open-form-btn:hover, .finish-btn:hover {
+            background-color: #357abd;
+        }
+        .finish-btn {
+            background-color: #4CAF50;
+            margin-top: 20px;
+        }
+        .finish-btn:hover {
+            background-color: #45a049;
+        }
+        .content {
+            flex-grow: 1;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: rgba(254, 254, 254, 0.9);
+            margin: 2% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 1000px;
+            height: 90%;
+            position: relative;
+            box-sizing: border-box;
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .confirmation-modal .modal-content {
+            height: auto;
+            max-width: 400px;
+        }
+        .close {
+            color: #aaa;
+            align-self: flex-end;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .iframe-container {
+            flex-grow: 1;
+            position: relative;
+            overflow: hidden;
+        }
+        iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .confirmation-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .confirmation-buttons button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .confirm-btn {
+            background-color: #4CAF50;
+        }
+        .cancel-btn {
+            background-color: #f44336;
+        }
+        @media (max-width: 768px) {
+            .page-wrapper {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+            .logo {
+                width: 150px;
+                height: 150px;
+                margin-bottom: 30px;
+            }
+            .logo img {
+                width: 100px;
+            }
+            .open-form-btn, .finish-btn {
+                font-size: 18px;
+                padding: 15px;
+            }
+            .modal-content {
+                width: 95%;
+                height: 95%;
+                margin: 2.5% auto;
+                border-radius: 10px;
+                padding: 15px;
+            }
+            .iframe-container {
+                -webkit-overflow-scrolling: touch;
+                overflow-y: scroll;
+            }
+            iframe {
+                position: static;
+                height: 100%;
+            }
+            .confirmation-modal .modal-content {
+                width: 90%;
+                max-width: none;
+            }
+            .confirmation-buttons {
+                flex-direction: column;
+            }
+            .confirmation-buttons button {
+                margin-bottom: 10px;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="sidebar">
+            <div class="logo">
+                <a href="https://www.freedive-mallorca.com">
+                    <img src="https://freedive-mallorca.com/wp-content/uploads/2021/05/180-blaco.png" alt="Freedive Mallorca Logo">
+                </a>
+            </div>
+            <button class="open-form-btn" data-form="1">Registration Form</button>
+            <button class="open-form-btn" data-form="2">Medical Form</button>
+            <button class="finish-btn">Finish and Send</button>
+        </div>
+        <div class="content">
+            <!-- Content area is empty -->
+        </div>
+    </div>
+
+    <div id="formModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="iframe-container">
+                <iframe id="formFrame" src="" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+            </div>
+        </div>
+    </div>
+
+    <div id="confirmationModal" class="modal confirmation-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Confirmation</h2>
+            <p>Have you filled out all the forms and are you ready to send them?</p>
+            <div class="confirmation-buttons">
+                <button class="confirm-btn">Yes, Send</button>
+                <button class="cancel-btn">No, Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var formModal = document.getElementById("formModal");
+        var confirmationModal = document.getElementById("confirmationModal");
+        var btns = document.querySelectorAll(".open-form-btn");
+        var finishBtn = document.querySelector(".finish-btn");
+        var spans = document.getElementsByClassName("close");
+        var iframe = document.getElementById("formFrame");
+        var confirmBtn = document.querySelector(".confirm-btn");
+        var cancelBtn = document.querySelector(".cancel-btn");
+
+        const formUrls = {
+            1: "https://docs.google.com/forms/d/e/1FAIpQLSe-qhax1pGxo8MWzo--PNO_k0U5Q2e8OfBU35BDODpEhmuqfA/viewform?embedded=true",
+            2: "https://docs.google.com/forms/d/e/1FAIpQLSeAcnCcFTMk9gSONGOBhAiw2qh_e7MMW5Faf9NLQ2OG8bQ10Q/viewform?embedded=true"
+        };
+
+        btns.forEach(btn => {
+            btn.onclick = function() {
+                var formId = this.getAttribute("data-form");
+                iframe.src = formUrls[formId];
+                formModal.style.display = "block";
+            }
+        });
+
+        finishBtn.onclick = function() {
+            confirmationModal.style.display = "block";
+        }
+
+        Array.from(spans).forEach(span => {
+            span.onclick = function() {
+                formModal.style.display = "none";
+                confirmationModal.style.display = "none";
+            }
+        });
+
+        confirmBtn.onclick = function() {
+            alert("Forms submitted successfully!");
+            confirmationModal.style.display = "none";
+        }
+
+        cancelBtn.onclick = function() {
+            confirmationModal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == formModal) {
+                formModal.style.display = "none";
+            }
+            if (event.target == confirmationModal) {
+                confirmationModal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
