@@ -48,7 +48,7 @@ form.addEventListener('submit', function(e) {
         message: messageInput.value
     };
    
-    fetch('/submit-form', {
+    fetch('underwater.blue:2001', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
