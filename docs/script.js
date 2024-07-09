@@ -48,7 +48,7 @@ form.addEventListener('submit', function(e) {
         message: messageInput.value
     };
    
-    fetch('underwater.blue:2001', {
+    fetch('https://underwater.blue:2001', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ form.addEventListener('submit', function(e) {
     })
     .catch((error) => {
         console.error('Error:', error);
-        alert('Hubo un error al enviar el mensaje. Por favor, intenta de nuevo.');
+        alert('There was an error sending the message. Please try again.');
     });
 });
 
