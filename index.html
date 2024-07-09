@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Freedive Mallorca</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Google+Sans:400,500,700|Google+Sans+Text:400&lang=en" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'Google Sans';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Google Sans Regular'), local('GoogleSans-Regular'), url(https://fonts.gstatic.com/s/googlesans/v14/4UaGrENHsxJlGDuGo1OIlL3Kwp5MKg.woff2) format('woff2');
+        }
+        body, html { 
+            height: 100%;
+            margin: 0;
+            font-family: 'Google Sans', 'Roboto', Arial, sans-serif;
+            font-weight: 400;
+            color: #333;
+            background-image: url('https://freedive-mallorca.com/wp-content/uploads/2019/04/IMG_2458.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .page-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 0;
+        }
+        .logo {
+            margin-bottom: 30px;
+            z-index: 1000;
+            width: 225px;
+            height: 225px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+        .logo a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+        .logo img {
+            width: 160px;
+            height: auto;
+        }
+        .container {
+            max-width: 600px;
+            width: 90%;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 500;
+            font-family: 'Google Sans', 'Roboto', Arial, sans-serif;
+        }
+        p {
+            text-align: center;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+        form { 
+            display: flex; 
+            flex-direction: column; 
+        }
+        label { 
+            margin-top: 15px; 
+            color: #555;
+            font-weight: 400;
+        }
+        input, textarea { 
+            margin-bottom: 15px; 
+            padding: 10px; 
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Google Sans', 'Roboto', Arial, sans-serif;
+            font-weight: 400;
+        }
+        button { 
+            background-color: #4a90e2;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Google Sans', 'Roboto', Arial, sans-serif;
+            font-weight: 500;
+            margin-top: 20px;
+        }
+        button:hover { 
+            background-color: #357abd;
+        }
+        .error { 
+            color: #e74c3c; 
+            font-size: 0.9em; 
+            display: none; 
+        }
+        @media (max-width: 600px) {
+            .page-wrapper {
+                padding: 20px 0;
+            }
+            .container {
+                width: 85%;
+                padding: 25px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            input, textarea, button {
+                font-size: 16px;
+            }
+            .logo {
+                width: 200px;  /* Increased from 180px */
+                height: 200px; /* Increased from 180px */
+                margin-bottom: 20px;
+            }
+            .logo img {
+                width: 140px;  /* Increased from 150px to maintain proportion */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="logo">
+            <a href="https://www.freedive-mallorca.com">
+                <img src="https://freedive-mallorca.com/wp-content/uploads/2021/05/180-blaco.png" alt="Freedive Mallorca Logo">
+            </a>
+        </div>
+        <div class="container">
+            <h1>CONTACT US</h1>
+            <p>Embark on Your Freediving Adventure with us!</p>
+            <p>Complete the form below with your inquiry and preferred date, and our dedicated team will swiftly respond, tailoring a unique freediving experience just for you. Should you prefer, feel free to reach out to us via email or WhatsApp.</p>
+            <form id="contactForm" novalidate>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <span id="nameError" class="error">Please fill out this field.</span>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <span id="emailError" class="error">Please enter a valid email address.</span>
+
+                <label for="dateFrom">Date from:</label>
+                <input type="date" id="dateFrom" name="dateFrom">
+
+                <label for="dateTo">Date to:</label>
+                <input type="date" id="dateTo" name="dateTo">
+
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="4" required></textarea>
+                <span id="messageError" class="error">Please fill out this field.</span>
+
+                <button type="submit">Send</button>
+            </form>
+            
+            <p>Get ready for an unforgettable underwater journey!</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
