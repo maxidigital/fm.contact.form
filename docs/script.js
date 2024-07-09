@@ -1,5 +1,6 @@
 function validateEmail(email) {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    // Expresión regular simplificada para validar email
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(String(email).toLowerCase());
 }
 
@@ -11,58 +12,71 @@ const nameError = document.getElementById('nameError');
 const emailError = document.getElementById('emailError');
 const messageError = document.getElementById('messageError');
 
-form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
+function showError(element, message) {
+    element.textContent = message;
+    element.style.display = 'block';
+}
+
+function hideError(element) {
+    element.style.display = 'none';
+}
+
+function validateForm() {
     let isValid = true;
 
-    // Validaciones
     if (nameInput.value.trim() === '') {
-        nameError.style.display = 'block';
+        showError(nameError, 'Name is required');
         isValid = false;
     } else {
-        nameError.style.display = 'none';
+        hideError(nameError);
     }
 
     if (!validateEmail(emailInput.value)) {
-        emailError.style.display = 'block';
+        showError(emailError, 'Please enter a valid email address');
         isValid = false;
     } else {
-        emailError.style.display = 'none';
+        hideError(emailError);
     }
 
     if (messageInput.value.trim() === '') {
-        messageError.style.display = 'block';
+        showError(messageError, 'Message is required');
         isValid = false;
     } else {
-        messageError.style.display = 'none';
+        hideError(messageError);
     }
 
-    if (!isValid) return;
+    return isValid;
+}
+
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    if (!validateForm()) return;
 
     const formData = {
-        name: nameInput.value,
-        email: emailInput.value,
+        name: nameInput.value.trim(),
+        email: emailInput.value.trim(),
         dateFrom: document.getElementById('dateFrom').value,
         dateTo: document.getElementById('dateTo').value,
-        message: messageInput.value
+        message: messageInput.value.trim()
     };
    
     fetch('https://underwater.blue:2001', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'Accept': 'text/html',
         },
+        credentials: 'include', // Incluye cookies en la solicitud
         body: JSON.stringify(formData),
     })
     .then(response => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response.text(); // Esperamos HTML como respuesta
+        return response.text();
     })
     .then(html => {
-        // Reemplazamos el contenido del body con el HTML recibido
         document.body.innerHTML = html;
     })
     .catch((error) => {
@@ -71,11 +85,19 @@ form.addEventListener('submit', function(e) {
     });
 });
 
-// Validación en tiempo real del email
-emailInput.addEventListener('input', function() {
-    if (validateEmail(this.value)) {
-        emailError.style.display = 'none';
-    } else {
-        emailError.style.display = 'block';
-    }
+// Validación en tiempo real
+[nameInput, emailInput, messageInput].forEach(input => {
+    input.addEventListener('input', function() {
+        if (this === emailInput) {
+            if (validateEmail(this.value)) {
+                hideError(emailError);
+            } else {
+                showError(emailError, 'Please enter a valid email address');
+            }
+        } else {
+            if (this.value.trim() !== '') {
+                hideError(this.id + 'Error');
+            }
+        }
+    });
 });
